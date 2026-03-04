@@ -6,7 +6,7 @@ import es.masanz.ut6.arkanoid.model.Nivel;
 public class NivelDao {
 
     public static Nivel obtenerNivel(int id){
-        // TODO 01: Buscar y devolver el nivel en caso de existir
+        // TODO 01: Buscar y devolver el nivel en caso de existir ✔️
         Nivel nivel = new Nivel();
 
         String sql = "SELECT filas, columnas, ladrillos, siguiente_nivel\n" +
@@ -27,10 +27,10 @@ public class NivelDao {
             nivel.setFilas(filas);
             nivel.setColumnas(columnas);
             nivel.generarLadrillosDesdeTexto(ladrillos);
+            nivel.setSiguienteNivel(siguiente_nivel);
 
+            return nivel;
         }
         return null;
     }
-
-
 }

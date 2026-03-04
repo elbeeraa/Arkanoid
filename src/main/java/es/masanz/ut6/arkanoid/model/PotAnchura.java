@@ -19,6 +19,14 @@ public class PotAnchura extends Potenciador {
 
     @Override
     public void aplicarEfecto(List<Sprite> sprites) {
-        // TODO 06: Si alguno de los sprites es una paleta, ampliar su anchura si esta no supera 10 veces TAM_CASILLA
+        // TODO 06: Si alguno de los sprites es una paleta, ampliar su anchura si esta no supera 10 veces TAM_CASILLA ✔️
+        for (Sprite s : sprites) {
+            if(s instanceof Paleta){
+                Paleta paleta = (Paleta) s;
+                if(paleta.getAnchura() < (TAM_CASILLA * 10)){
+                    paleta.setAnchura(paleta.getAnchura() + 5);
+                }
+            }
+        }
     }
 }

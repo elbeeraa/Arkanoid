@@ -18,8 +18,7 @@ import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 import static es.masanz.ut6.arkanoid.conf.Const.*;
 
@@ -47,8 +46,9 @@ public class Arkanoid extends Application {
         HBox root = new HBox();
         Scene scene = new Scene(root);
 
-        // TODO 11: inicializa el nivel
-        nivel = null;
+        // TODO 11: inicializa el nivel ✔️ DUDA
+        nivel = NivelService.obtenerNivel(1);
+        //No tendria que pillar el nivel por id?
 
         lienzo = new Canvas();
         generarMapa();
@@ -89,8 +89,22 @@ public class Arkanoid extends Application {
         //  Emplea los terminos entrecomillados como claves
         //  La lista de "potenciadores" debera estar vacia
         //  La lista de "bolas" debera contener unicamente la bola que esta aqui definida
-        //  La lista de "ladrillos" la deberas obtener del nivel
+        //  La lista de "ladrillos" la deberas obtener del nivel ✔️DUDA
+        //private Map<String, List<Sprite>> sprites;
+        List<Sprite> ladrillos = new ArrayList<>();
+        List<Ladrillo> listaLadrillos = nivel.getLadrillos();
+        for (Ladrillo l : listaLadrillos) {
+            ladrillos.add(l);
+        }
+        List<Sprite> bolas = new ArrayList<>();
         Bola bola = new Bola(nivel.getColumnas() / 2 * TAM_CASILLA, (nivel.getFilas()-4) * TAM_CASILLA);
+        bolas.add(bola);
+        List<Sprite> potenciadores = new ArrayList<>();
+
+        sprites = new HashMap<>();
+        sprites.put("ladrillos",ladrillos);
+        sprites.put("bolas",bolas);
+        sprites.put("potenciadores",potenciadores);
 
         // NO TOCAR ESTAS LINEAS
         paleta = new Paleta(nivel.getColumnas()/2 - TAM_CASILLA*6/2, (nivel.getFilas()-3)*TAM_CASILLA, 4, TAM_CASILLA*6, TAM_CASILLA, 0, 0);
@@ -143,46 +157,126 @@ public class Arkanoid extends Application {
     }
 
     private void moverLadrillos() {
-        // TODO 13: Deberas mover todos los ladrillos
+        // TODO 13: Deberas mover todos los ladrillos ✔️REPASAR PARA EXAMEN
+        List<Sprite> ladrillos = sprites.get("ladrillos");
+        for (Sprite l : ladrillos) {
+            Ladrillo ladrillo = (Ladrillo) l;
+            ladrillo.mover(nivel);
+        }
     }
 
     private List<Sprite> moverBolas() {
-        // TODO 14: Deberas mover todas las bolas y devolver aquellas que no se puedan mover
-        return null;
+        // TODO 14: Deberas mover todas las bolas y devolver aquellas que no se puedan mover✔️
+        List<Sprite> bolasNo = new ArrayList<>();
+        List<Sprite> bolas = sprites.get("bolas");
+        for (Sprite b : bolas) {
+            Bola bola = (Bola) b;
+            if(!bola.mover(nivel)){
+                bolasNo.add(bola);
+            }
+        }
+        return bolasNo;
     }
 
     private List<Sprite> moverPotenciadores() {
         // TODO 15: Deberas mover todos los potenciadores y devolver aquellos que, o bien no se puedan mover
         //  o bien que despues de moverse esten en colision con la paleta.
         //  Adicionalmente, si entra en contacto con la paleta, se debera aplicar
-        //  su efecto a todos los sprites que pueda afectar su potenciacion (a la paleta, bolas, etc)
-        return null;
+        //  su efecto a todos los sprites que pueda afectar su potenciacion (a la paleta, bolas, etc) ✔️
+        List<Sprite> potenciadores = sprites.get("potenciadores");
+        List<Sprite> potNo = new ArrayList<>();
+        for (Sprite p : potenciadores) {
+           Potenciador potenciador = (Potenciador) p;
+           if(!potenciador.mover(nivel)){
+               potNo.add(potenciador);
+           }
+           if((potenciador.getX() == paleta.getX()) && (potenciador.getY() == paleta.getY())){
+               potNo.add(potenciador);
+               //potenciador.aplicarEfecto();
+               //TODO ⚠️ PREGUNTAR: TENGO QUE HACER UNA LISTA NUEVA PARA AÑADIRSELA? ⚠️
+           }
+        }
+        return potNo;
     }
 
     private void eliminarPotenciadores(List<Sprite> eliminarPotenciadores) {
-        // TODO 16: Deberas eliminar los potenciadores indicados del mapa de sprites
+        // TODO 16: Deberas eliminar los potenciadores indicados del mapa de sprites ✔️REPASAR PARA EXAMEN
+        List<Sprite> listaPotenciadores = sprites.get("potenciadores");
+        Iterator<Sprite> iter = listaPotenciadores.iterator();
+        while(iter.hasNext()){
+            Sprite sprite = iter.next();
+            if(eliminarPotenciadores.contains(sprite)){
+                iter.remove();
+            }
+        }
     }
 
     private List<Sprite> colisionesLadrillos() {
-        // TODO 17: Deberas analizar si hay colision entre los ladrillos y las bolas del juego.
+        // TODO 17: ‼️ Deberas analizar si hay colision entre los ladrillos y las bolas del juego.
         //  En caso de que haya colision, invoca al metodo hayColision de la bola con la que colisiona el ladrillo
         //  y al metodo morir del propio ladrillo. Deberas devolver todos los ladrillos que se mueran.
         //  OPCIONAL: Aqui se pueden ampliar los puntos del juego si se desea
+//        List<Sprite> ladrillosMuertos = new ArrayList<>();
+//        List<Sprite> ladrillos = sprites.get("ladrillos");
+//        List<Sprite> bolas = sprites.get("bolas");
+//        for (Sprite ladrillo : ladrillos) {
+//            for (Sprite bola : bolas) {
+//                if(bola.getX() = ladrillo.getX())
+//            }
+//        }
         return null;
     }
+
 
     private void eliminarLadrillos(List<Sprite> eliminarLadrillos) {
         // TODO 18: Deberas eliminar los ladrillos indicados del mapa de sprites.
         //  Ademas, para cada ladrillo eliminado, se debera validar si genera un potenciador.
-        //  En caso de generar uno, se debera incluir al listado de potenciadores del mapa de sprites
+        //  En caso de generar uno, se debera incluir al listado de potenciadores del mapa de sprites ✔️
+        List<Sprite> listaLadrillos = sprites.get("ladrillos");
+        List<Sprite> listaPotenciadores = sprites.get("potenciadores");
+
+        Iterator<Sprite> iter = listaLadrillos.iterator();
+
+        while (iter.hasNext()) {
+            Sprite sprite = iter.next();
+
+            if (eliminarLadrillos.contains(sprite)) {
+                Ladrillo ladrillo = (Ladrillo) sprite;
+                Potenciador potenciador = ladrillo.obtenerPotenciador();
+
+                if (potenciador != null) {
+                    listaPotenciadores.add(potenciador);
+                }
+                iter.remove();
+            }
+        }
     }
 
     private void eliminarBolas(List<Sprite> eliminarBolas) {
-        // TODO 19: Deberas eliminar las bolas indicadas del mapa de sprites.
+        // TODO 19: Deberas eliminar las bolas indicadas del mapa de sprites. ✔️
+//        for (List<Sprite> s : sprites.values()) {
+//            Iterator<Sprite> iter = s.iterator();
+//            while (iter.hasNext()) {
+//                Sprite sprite = iter.next();
+//                if (eliminarBolas.contains(sprite)) {
+//                    iter.remove();
+//                }
+//            }
+//        }
+        List<Sprite> listaBolas = sprites.get("bolas");
+        Iterator<Sprite> iter = listaBolas.iterator();
+        while(iter.hasNext()){
+            Sprite sprite = iter.next();
+            if(eliminarBolas.contains(sprite)){
+                iter.remove();
+            }
+        }
+
     }
 
     private void colisionBolas() {
-        // TODO 20: Deberas analizar si hay colision entre las bolas y la paleta del juego.
+        // TODO 20: ‼️ Deberas analizar si hay colision entre las bolas y la paleta del juego.
+        //TODO ⚠️ PREGUNTAR QUE TENGO QUE HACER EXACTAMENTE ⚠️
     }
 
     private void pintar() {
@@ -211,7 +305,8 @@ public class Arkanoid extends Application {
     }
 
     private void pintarSprites(GraphicsContext gc) {
-        // TODO 21: Deberas pintar todos los sprites del juego
+        // TODO 21: ‼️ Deberas pintar todos los sprites del juego
+
     }
 
     private void pintarPausa(String msg) {

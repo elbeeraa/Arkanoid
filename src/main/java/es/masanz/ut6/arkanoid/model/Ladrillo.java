@@ -1,5 +1,6 @@
 package es.masanz.ut6.arkanoid.model;
 
+import javafx.scene.PointLight;
 import javafx.scene.canvas.GraphicsContext;
 
 import static es.masanz.ut6.arkanoid.conf.Const.*;
@@ -36,7 +37,17 @@ public class Ladrillo extends Sprite {
     }
 
     public Potenciador obtenerPotenciador() {
-        // TODO 05: Devolver un potenciador u otro con la probabilidad que se desee
+        // TODO 05: ‼️ Devolver un potenciador u otro con la probabilidad que se desee
+        double numeroAleatorio = Math.random();
+        int numeroPotenciador = (int) (Math.random() * 3 + 1);
+        if(numeroAleatorio > 0.6){
+            switch (numeroPotenciador){
+                case 1:
+                   // return new PotAnchura()
+            }
+        }
+        //TODO ⚠️ PREGUNTAR -> si creo nuevo potenciador me pide x e y (si es asi tendria que meterle la x e y del ladrillo que muere no?)⚠️
+        //
         return null;
     }
 
