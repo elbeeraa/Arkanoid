@@ -58,6 +58,13 @@ public class Nivel {
 
     public void generarLadrillosDesdeTexto(String ladrillosStr) {
         // TODO 03: En funcion del String recibido, cargar los ladrillos del nivel
+        //Ladrillo ladrillo = new Ladrillo()
+        for (int i = 0; i < ladrillosStr.length(); i++) {
+            for (int j = 0; j < columnas; j++) {
+
+            }
+        }
+
     }
 
     public String generarTextoDesdeLadrillos(){
