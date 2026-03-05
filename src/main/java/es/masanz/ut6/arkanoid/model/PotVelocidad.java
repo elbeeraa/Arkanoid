@@ -25,7 +25,6 @@ public class PotVelocidad extends Potenciador {
                 Bola bola = (Bola) s;
                 bola.setVelocidadX(bola.getVelocidadX() * 2);
                 bola.setVelocidadY(bola.getVelocidadY() * 2);
-                //TODO ⚠️ PREGUNTAR SI TENGO QUE CAMBIAR LA VELOCIDAD EN X E Y ⚠️
             }
         }
     }

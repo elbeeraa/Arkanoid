@@ -61,11 +61,14 @@ public class Nivel {
         List<Ladrillo> ladrillos = new ArrayList<>();
         for (int i = 0; i < ladrillosStr.length(); i++) {
             char numero = ladrillosStr.charAt(i);
+            String num = "2";
+            int num2 = Integer.parseInt(num);
             if(numero != '0'){
                 int y = i / columnas;
                 int x = i % columnas;
                 Ladrillo ladrillo = new Ladrillo(x,y);
-                //TODO ⚠️ PREGUNTAR TENDRIA QUE AÑADIRLE LAS VIDAS? ⚠️
+                //TODO ⚠️ cambiar el char a String y de string a int ⚠️
+
                 ladrillos.add(ladrillo);
             }
         }

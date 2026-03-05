@@ -276,7 +276,7 @@ public class Arkanoid extends Application {
 
     private void colisionBolas() {
         // TODO 20: ‼️ Deberas analizar si hay colision entre las bolas y la paleta del juego.
-        //TODO ⚠️ PREGUNTAR QUE TENGO QUE HACER EXACTAMENTE ⚠️
+        //TODO ⚠️ USAR UN METODO QUE ESTÁ YA HECHO⚠️
     }
 
     private void pintar() {

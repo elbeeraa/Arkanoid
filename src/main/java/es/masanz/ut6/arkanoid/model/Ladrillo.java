@@ -43,10 +43,10 @@ public class Ladrillo extends Sprite {
         if(numeroAleatorio > 0.6){
             switch (numeroPotenciador){
                 case 1:
-                   // return new PotAnchura()
+                    return new PotAnchura(this.x,this.y);
             }
         }
-        //TODO ⚠️ PREGUNTAR -> si creo nuevo potenciador me pide x e y (si es asi tendria que meterle la x e y del ladrillo que muere no?)⚠️
+        //TODO ⚠️ bien planteado TERMINAR⚠️
         //
         return null;
     }
