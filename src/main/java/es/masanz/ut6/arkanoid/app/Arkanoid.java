@@ -288,7 +288,8 @@ public class Arkanoid extends Application {
         // TODO 20: Deberas analizar si hay colision entre las bolas y la paleta del juego.✅
         List<Sprite> bolas = sprites.get("bolas");
         for (Sprite bola : bolas) {
-           bola.hayColision(paleta);
+            Bola b = (Bola) bola;
+           b.hayColision(paleta);
         }
     }
 
