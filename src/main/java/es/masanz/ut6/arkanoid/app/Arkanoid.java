@@ -182,7 +182,7 @@ public class Arkanoid extends Application {
         // TODO 15: Deberas mover todos los potenciadores y devolver aquellos que, o bien no se puedan mover
         //  o bien que despues de moverse esten en colision con la paleta.
         //  Adicionalmente, si entra en contacto con la paleta, se debera aplicar
-        //  su efecto a todos los sprites que pueda afectar su potenciacion (a la paleta, bolas, etc) ✔️
+        //  su efecto a todos los sprites que pueda afectar su potenciacion (a la paleta, bolas, etc) ✔️DUDA
         List<Sprite> potenciadores = sprites.get("potenciadores");
         List<Sprite> potNo = new ArrayList<>();
         for (Sprite p : potenciadores) {
@@ -192,8 +192,11 @@ public class Arkanoid extends Application {
            }
            if((potenciador.getX() == paleta.getX()) && (potenciador.getY() == paleta.getY())){
                potNo.add(potenciador);
-               //potenciador.aplicarEfecto();
-               //TODO ⚠️ PREGUNTAR: TENGO QUE HACER UNA LISTA NUEVA PARA AÑADIRSELA? ⚠️
+               List<Sprite> S_paleta = new ArrayList<>();
+               List<Sprite> bolas = sprites.get("bolas");
+               S_paleta.add(paleta);
+               potenciador.aplicarEfecto(S_paleta);
+               potenciador.aplicarEfecto(bolas);
            }
         }
         return potNo;
@@ -212,19 +215,26 @@ public class Arkanoid extends Application {
     }
 
     private List<Sprite> colisionesLadrillos() {
-        // TODO 17: ‼️ Deberas analizar si hay colision entre los ladrillos y las bolas del juego.
+        // TODO 17:Deberas analizar si hay colision entre los ladrillos y las bolas del juego.
         //  En caso de que haya colision, invoca al metodo hayColision de la bola con la que colisiona el ladrillo
         //  y al metodo morir del propio ladrillo. Deberas devolver todos los ladrillos que se mueran.
-        //  OPCIONAL: Aqui se pueden ampliar los puntos del juego si se desea
-//        List<Sprite> ladrillosMuertos = new ArrayList<>();
-//        List<Sprite> ladrillos = sprites.get("ladrillos");
-//        List<Sprite> bolas = sprites.get("bolas");
-//        for (Sprite ladrillo : ladrillos) {
-//            for (Sprite bola : bolas) {
-//                if(bola.getX() = ladrillo.getX())
-//            }
-//        }
-        return null;
+        //  OPCIONAL: Aqui se pueden ampliar los puntos del juego si se desea ✅
+        List<Sprite> ladrillosMuertos = new ArrayList<>();
+        List<Sprite> ladrillos = sprites.get("ladrillos");
+        List<Sprite> bolas = sprites.get("bolas");
+        for (Sprite ladrillo : ladrillos) {
+            for (Sprite bola : bolas) {
+                if(ladrillo.hayColision(bola)) {
+                    bola.hayColision(ladrillo);
+                    if(ladrillo instanceof Ladrillo){
+                        Ladrillo l = (Ladrillo) ladrillo;
+                        ladrillosMuertos.add(l);
+                        l.morir();
+                    }
+                }
+            }
+        }
+        return ladrillosMuertos;
     }
 
 
@@ -275,8 +285,11 @@ public class Arkanoid extends Application {
     }
 
     private void colisionBolas() {
-        // TODO 20: ‼️ Deberas analizar si hay colision entre las bolas y la paleta del juego.
-        //TODO ⚠️ USAR UN METODO QUE ESTÁ YA HECHO⚠️
+        // TODO 20: Deberas analizar si hay colision entre las bolas y la paleta del juego.✅
+        List<Sprite> bolas = sprites.get("bolas");
+        for (Sprite bola : bolas) {
+           bola.hayColision(paleta);
+        }
     }
 
     private void pintar() {
@@ -305,8 +318,12 @@ public class Arkanoid extends Application {
     }
 
     private void pintarSprites(GraphicsContext gc) {
-        // TODO 21: ‼️ Deberas pintar todos los sprites del juego
-
+        // TODO 21: Deberas pintar todos los sprites del juego ✅
+        for (List<Sprite> value : sprites.values()) {
+            for (Sprite s : value) {
+                s.pintar(gc);
+            }
+        }
     }
 
     private void pintarPausa(String msg) {
