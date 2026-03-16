@@ -46,9 +46,10 @@ public class Arkanoid extends Application {
         HBox root = new HBox();
         Scene scene = new Scene(root);
 
-        // TODO 11: inicializa el nivel ✔️ DUDA
+        // TODO 11: inicializa el nivel ✔️ SOLUCION:Por que pone 4?
         nivel = NivelService.obtenerNivel(1);
         //No tendria que pillar el nivel por id?
+
 
         lienzo = new Canvas();
         generarMapa();
@@ -89,13 +90,11 @@ public class Arkanoid extends Application {
         //  Emplea los terminos entrecomillados como claves
         //  La lista de "potenciadores" debera estar vacia
         //  La lista de "bolas" debera contener unicamente la bola que esta aqui definida
-        //  La lista de "ladrillos" la deberas obtener del nivel ✔️DUDA
+        //  La lista de "ladrillos" la deberas obtener del nivel ✔️BIEN
         //private Map<String, List<Sprite>> sprites;
         List<Sprite> ladrillos = new ArrayList<>();
         List<Ladrillo> listaLadrillos = nivel.getLadrillos();
-        for (Ladrillo l : listaLadrillos) {
-            ladrillos.add(l);
-        }
+        ladrillos.addAll(listaLadrillos);
         List<Sprite> bolas = new ArrayList<>();
         Bola bola = new Bola(nivel.getColumnas() / 2 * TAM_CASILLA, (nivel.getFilas()-4) * TAM_CASILLA);
         bolas.add(bola);
@@ -160,8 +159,8 @@ public class Arkanoid extends Application {
         // TODO 13: Deberas mover todos los ladrillos ✔️REPASAR PARA EXAMEN
         List<Sprite> ladrillos = sprites.get("ladrillos");
         for (Sprite l : ladrillos) {
-            Ladrillo ladrillo = (Ladrillo) l;
-            ladrillo.mover(nivel);
+//            Ladrillo ladrillo = (Ladrillo) l;
+            l.mover(nivel);
         }
     }
 
